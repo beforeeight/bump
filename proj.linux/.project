@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Bump</name>
+	<name>bump</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -28,12 +28,12 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<location>/home/zhangchen/development/cocos2d-x-2.2.3/samples/Cpp/Bump/Classes</location>
+			<location>/home/zhangchen/development/cocos2d-x-2.2.3/samples/Cpp/bump/Classes</location>
 		</link>
 		<link>
 			<name>Resources</name>
 			<type>2</type>
-			<location>/home/zhangchen/development/cocos2d-x-2.2.3/samples/Cpp/Bump/Resources</location>
+			<location>/home/zhangchen/development/cocos2d-x-2.2.3/samples/Cpp/bump/Resources</location>
 		</link>
 	</linkedResources>
 </projectDescription>
