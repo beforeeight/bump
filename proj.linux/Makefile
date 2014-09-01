@@ -1,4 +1,4 @@
-EXECUTABLE = Bump
+EXECUTABLE = bump
 
 INCLUDES = -I.. -I../Classes
 
@@ -9,9 +9,7 @@ SOURCES = main.cpp \
         ../Classes/MenuLayer.cpp \
         ../Classes/MainLayer.cpp \
         ../Classes/FinishLayer.cpp \
-        ../Classes/Ball.cpp \
-        ../Classes/ParticleExplosion.cpp
-        
+        ../Classes/Ball.cpp 
 
 COCOS_ROOT = ../../../..
 
