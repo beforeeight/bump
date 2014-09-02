@@ -94,8 +94,6 @@ void AppDelegate::loadResources() const
 
 	CCTextureCache::sharedTextureCache()->addImage(("background.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_bridge.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("pic_bird.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("pic_plane.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_score.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("btn_big.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("btn_small.png"));
@@ -114,18 +112,104 @@ void AppDelegate::loadResources() const
 //			respath("btn_sound_off.png"));
 //	CCTextureCache::sharedTextureCache()->addImage(respath("btn_sound_on.png"));
 
-	/*Enemy Plane Explosion Animation*/
-//	CCTextureCache::sharedTextureCache()->addImage("explode.png");
-//	CCArray *explosions = CCArray::createWithCapacity(12);
-//	for (int i = 0; i < 12; i++)
-//	{
-//		explosions->addObject(
-//				CCSpriteFrame::createWithTexture(
-//						CCTextureCache::sharedTextureCache()->textureForKey(
-//								"explode.png"), CCRectMake(i * 64, 0, 64, 64)));
-//	}
-//	CCAnimation *exAnimation = CCAnimation::createWithSpriteFrames(explosions);
-//	exAnimation->setDelayPerUnit(0.05f);
-//	CCAnimationCache::sharedAnimationCache()->addAnimation(exAnimation,
-//			"explosion");
+	/*-- Animation --*/
+	CCSpriteFrameCache *frameCache =
+			CCSpriteFrameCache::sharedSpriteFrameCache();
+	CCAnimationCache *animCache = CCAnimationCache::sharedAnimationCache();
+	char str[100] =
+	{ 0 };
+	/*-- 鸟动画 2帧 --*/
+	frameCache->addSpriteFramesWithFile("bird.plist");
+	CCArray *birds = CCArray::createWithCapacity(2);
+	for (unsigned int i = 0; i < birds->capacity(); i++)
+	{
+		sprintf(str, "bird_%d.png", i + 1);
+		birds->addObject(frameCache->spriteFrameByName(str));
+	}
+	CCAnimation *bird = CCAnimation::createWithSpriteFrames(birds);
+	bird->setDelayPerUnit(0.2f);
+	animCache->addAnimation(bird, "bird");
+
+	/*-- 飞机动画 --*/
+	frameCache->addSpriteFramesWithFile("plane.plist");
+	CCArray *planes = CCArray::createWithCapacity(2);
+	for (unsigned int i = 0; i < planes->capacity(); i++)
+	{
+		sprintf(str, "plane_%d.png", i + 1);
+		planes->addObject(frameCache->spriteFrameByName(str));
+	}
+	CCAnimation *plane = CCAnimation::createWithSpriteFrames(planes);
+	plane->setDelayPerUnit(0.1f);
+	animCache->addAnimation(plane, "plane");
+
+	/*-- 爆炸动画 --*/
+	frameCache->addSpriteFramesWithFile("boom.plist");
+	CCArray *booms = CCArray::createWithCapacity(8);
+	for (unsigned int i = 0; i < booms->capacity(); i++)
+	{
+		sprintf(str, "boom_%d.png", i + 1);
+		booms->addObject(frameCache->spriteFrameByName(str));
+	}
+	CCAnimation *boom = CCAnimation::createWithSpriteFrames(booms);
+	boom->setDelayPerUnit(0.5f);
+	animCache->addAnimation(boom, "boom");
+
+	/*-- 门动画 --*/
+	frameCache->addSpriteFramesWithFile("door.plist");
+	CCArray *doors = CCArray::createWithCapacity(2);
+	for (unsigned int i = 0; i < doors->capacity(); i++)
+	{
+		sprintf(str, "door_%d.png", i + 1);
+		doors->addObject(frameCache->spriteFrameByName(str));
+	}
+	CCAnimation *door = CCAnimation::createWithSpriteFrames(doors);
+	door->setDelayPerUnit(0.01f);
+	animCache->addAnimation(door, "door");
+
+	/*-- 怪兽动画 --*/
+	frameCache->addSpriteFramesWithFile("dragon_big.plist");
+	CCArray *dragons = CCArray::createWithCapacity(15);
+	CCArray *dragonjumps = CCArray::createWithCapacity(2);
+	for (unsigned int i = 0; i < 17; i++)
+	{
+		sprintf(str, "dragon_big_%d.png", i + 1);
+		if (i < 15)
+		{
+			dragons->addObject(frameCache->spriteFrameByName(str));
+		}
+		else
+		{
+			dragonjumps->addObject(frameCache->spriteFrameByName(str));
+		}
+	}
+	CCAnimation *dragon = CCAnimation::createWithSpriteFrames(dragons);
+	CCAnimation *dragonjump = CCAnimation::createWithSpriteFrames(dragonjumps);
+	dragon->setDelayPerUnit(0.1f);
+	dragonjump->setDelayPerUnit(0.2f);
+	animCache->addAnimation(dragon, "dragon");
+	animCache->addAnimation(dragonjump, "dragonjump");
+
+	/*-- 奥特曼动画 --*/
+	frameCache->addSpriteFramesWithFile("ultraman_big.plist");
+	CCArray *ultramans = CCArray::createWithCapacity(15);
+	CCArray *ultramanjumps = CCArray::createWithCapacity(2);
+	for (unsigned int i = 0; i < 17; i++)
+	{
+		sprintf(str, "ultraman_big_%d.png", i + 1);
+		if (i < 15)
+		{
+			ultramans->addObject(frameCache->spriteFrameByName(str));
+		}
+		else
+		{
+			ultramanjumps->addObject(frameCache->spriteFrameByName(str));
+		}
+	}
+	CCAnimation *ultraman = CCAnimation::createWithSpriteFrames(ultramans);
+	CCAnimation *ultramanjump = CCAnimation::createWithSpriteFrames(
+			ultramanjumps);
+	ultraman->setDelayPerUnit(0.1f);
+	ultramanjump->setDelayPerUnit(0.2f);
+	animCache->addAnimation(ultraman, "ultraman");
+	animCache->addAnimation(ultramanjump, "ultramanjump");
 }

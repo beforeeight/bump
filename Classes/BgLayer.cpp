@@ -36,9 +36,6 @@ bool BgLayer::init()
 		Counter *counter = Counter::sharedCounter();
 		CCTextureCache *cache = CCTextureCache::sharedTextureCache();
 		/*-- 背景 --*/
-		CCLog(
-				CCFileUtils::sharedFileUtils()->fullPathForFilename(
-						"background.png").c_str());
 		CCSprite *bg = CCSprite::createWithTexture(
 				cache->textureForKey(("background.png")));
 		this->addChild(bg, 0);
@@ -49,15 +46,25 @@ bool BgLayer::init()
 		bridge->setAnchorPoint(ccp(0.5, 0));
 		this->addChild(bridge, 1);
 
-		CCSprite *bird = CCSprite::createWithTexture(
-				cache->textureForKey(("pic_bird.png")));
+		/*-- 小鸟 --*/
+		CCSprite *bird = CCSprite::createWithSpriteFrameName("bird_1.png");
 		bird->setPosition(ccp(150, 180));
 		this->addChild(bird, 1);
+		CCAnimation *birdAnimation =
+				CCAnimationCache::sharedAnimationCache()->animationByName(
+						"bird");
+		bird->runAction(
+				CCRepeatForever::create(CCAnimate::create(birdAnimation)));
 
-		CCSprite *plane = CCSprite::createWithTexture(
-				cache->textureForKey(("pic_plane.png")));
+		/*-- 飞机 --*/
+		CCSprite *plane = CCSprite::createWithSpriteFrameName("plane_1.png");
 		plane->setPosition(ccp(260, 180));
 		this->addChild(plane, 1);
+		CCAnimation *planeAnimation =
+				CCAnimationCache::sharedAnimationCache()->animationByName(
+						"plane");
+		plane->runAction(
+				CCRepeatForever::create(CCAnimate::create(planeAnimation)));
 
 		/*-- 计分 --*/
 		//当前得分

@@ -39,6 +39,14 @@ private:
 	void createNewRole();
 
 	void reCreateNewRole();
+
+	void playRunAnimation();
+
+	void playJumpAnimation(CCNode *node);
+
+	void playDropAnimation();
+
+	void gameover();
 };
 
 #endif

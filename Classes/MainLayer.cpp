@@ -14,13 +14,16 @@
 
 #define TAG_LEFT 0
 #define TAG_RIGHT 1
+#define TAG_ACTION_RUN 1
+#define TAG_ACTION_JUMP 2
+#define TAG_ACTION_DROP 2
 
 MainLayer::MainLayer()
 {
 	// TODO Auto-generated constructor stub
 	disappearing = false;
 	speed = 5.0f;
-	ratio = 3.5f;
+	ratio = 2.0f;
 }
 
 bool MainLayer::init()
@@ -40,49 +43,24 @@ bool MainLayer::init()
 	CCTextureCache *cache = CCTextureCache::sharedTextureCache();
 
 	/*-- door --*/
+	CCAnimation *doorAnimation =
+			CCAnimationCache::sharedAnimationCache()->animationByName("door");
 	//左侧
-	CCSprite *leftDoor = CCSprite::createWithTexture(
-			cache->textureForKey(("pic_door_light.png")));
-	CCSprite *leftDoorb = CCSprite::createWithTexture(
-			cache->textureForKey(("pic_door.png")));
-	CCSprite *leftDoorf = CCSprite::createWithTexture(
-			cache->textureForKey(("pic_light_1.png")));
-
-	leftDoorf->setPosition(
-			ccp(leftDoorb->getContentSize().width / 2,
-					leftDoorb->getContentSize().height / 2));
-	leftDoorf->setAnchorPoint(ccp(0.5, 0.5));
-	leftDoorb->addChild(leftDoorf);
-	leftDoorb->setPosition(
-			ccp(leftDoor->getContentSize().width / 2,
-					leftDoor->getContentSize().height / 2));
-	leftDoorb->setAnchorPoint(ccp(0.5, 0.5));
-	leftDoor->addChild(leftDoorb);
+	CCSprite *leftDoor = CCSprite::createWithSpriteFrameName("door_1.png");
 	leftDoor->setPosition(ccp(-200, -50));
 	leftDoor->setAnchorPoint(ccp(0.5, 0.5));
 	this->addChild(leftDoor);
+	leftDoor->runAction(
+			CCRepeatForever::create(CCAnimate::create(doorAnimation)));
 
 	//右侧
-	CCSprite *rightDoor = CCSprite::createWithTexture(
-			cache->textureForKey(("pic_door_light.png")));
-	CCSprite *rightDoorb = CCSprite::createWithTexture(
-			cache->textureForKey(("pic_door.png")));
-	CCSprite *rightDoorf = CCSprite::createWithTexture(
-			cache->textureForKey(("pic_light_1.png")));
-
-	rightDoorf->setPosition(
-			ccp(rightDoorb->getContentSize().width / 2,
-					rightDoorb->getContentSize().height / 2));
-	rightDoorf->setAnchorPoint(ccp(0.5, 0.5));
-	rightDoorb->addChild(rightDoorf);
-	rightDoorb->setPosition(
-			ccp(rightDoor->getContentSize().width / 2,
-					rightDoor->getContentSize().height / 2));
-	rightDoorb->setAnchorPoint(ccp(0.5, 0.5));
-	rightDoor->addChild(rightDoorb);
+	CCSprite *rightDoor = CCSprite::createWithSpriteFrameName("door_1.png");
 	rightDoor->setPosition(ccp(200, -50));
 	rightDoor->setAnchorPoint(ccp(0.5, 0.5));
 	this->addChild(rightDoor);
+	rightDoor->runAction(
+			CCRepeatForever::create(CCAnimate::create(doorAnimation)));
+
 	/*-- role --*/
 	this->createNewRole();
 	return true;
@@ -115,7 +93,7 @@ CCScene * MainLayer::scene()
 }
 
 bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
-{
+{ /*-- 跳动作 --*/
 	//CCDirector::sharedDirector()->replaceScene(FinishLayer::scene());
 	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint location = pTouch->getLocation();
@@ -131,6 +109,7 @@ bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 	node->runAction(
 			CCJumpBy::create(speed / ratio, ccp(0, 0),
 					node->getContentSize().height, 1));
+	//playJumpAnimation(node);
 	return true;
 }
 
@@ -140,21 +119,21 @@ void MainLayer::createNewRole()
 	float width = vsize.width / 2;
 	float height = vsize.height / 2;
 	CCTextureCache *cache = CCTextureCache::sharedTextureCache();
-	float random = CCRANDOM_0_1();
-	CCSprite *left, *right;
-	if (random < 0.5)
+
+	CCSprite *left = CCSprite::createWithSpriteFrameName("ultraman_big_1.png");
+//	CCSprite *left = CCSprite::createWithTexture(
+//			CCTextureCache::sharedTextureCache()->textureForKey(
+//					"ultraman_big_1.png"));
+	//
+
+	CCSprite *right = CCSprite::createWithSpriteFrameName("dragon_big_1.png");
+	if (CCRANDOM_0_1() < 0.5)
 	{
-		left = CCSprite::createWithTexture(
-				cache->textureForKey(("ultraman_big_1.png")));
-		right = CCSprite::createWithTexture(
-				cache->textureForKey(("dragon_small_1.png")));
+		left->setScale(0.5f);
 	}
 	else
 	{
-		left = CCSprite::createWithTexture(
-				cache->textureForKey(("ultraman_small_1.png")));
-		right = CCSprite::createWithTexture(
-				cache->textureForKey(("dragon_big_1.png")));
+		right->setScale(0.5f);
 	}
 	left->setPosition(ccp(-width, -height + 230));
 	left->setAnchorPoint(ccp(0, 0));
@@ -162,9 +141,12 @@ void MainLayer::createNewRole()
 	right->setPosition(ccp(width, -height + 230));
 	right->setAnchorPoint(ccp(1, 0));
 	this->addChild(right, 3, TAG_RIGHT);
-	disappearing = false;
 	left->runAction(CCMoveBy::create(speed, ccp(2 * width, 0)));
 	right->runAction(CCMoveBy::create(speed, ccp(-2 * width, 0)));
+	disappearing = false;
+
+	/*-- 走路动画 --*/
+	playRunAnimation();
 }
 
 void MainLayer::reCreateNewRole()
@@ -178,15 +160,112 @@ void MainLayer::update(float delta)
 {
 	CCNode *left = this->getChildByTag(TAG_LEFT);
 	CCNode *right = this->getChildByTag(TAG_RIGHT);
-	if (left->getPosition().x > right->getPosition().x && !disappearing)
+
+	CCRect leftRect = left->boundingBox();
+	CCRect rightRect = right->boundingBox();
+	if (!disappearing)
 	{
-		disappearing = true;
-		left->runAction(CCFadeOut::create(1.0f));
-		right->runAction(
-				CCSequence::createWithTwoActions(CCFadeOut::create(1.0f),
-						CCCallFunc::create(this,
-								callfunc_selector(
-										MainLayer::reCreateNewRole))));
+		if (leftRect.intersectsRect(rightRect))
+		{
+			disappearing = true;
+			CCLog("left width: %f, right width: %f", leftRect.size.width,
+					rightRect.size.width);
+			CCLog("left getMinX: %f, left getMaxX: %f", leftRect.getMinX(),
+					leftRect.getMaxX());
+			CCLog("right getMinX: %f, right getMaxX: %f", rightRect.getMinX(),
+					rightRect.getMaxX());
+			/*爆炸*/
+			playDropAnimation();
+		}
+		else if (left->getPosition().x > right->getPosition().x)
+		{
+			disappearing = true;
+			left->runAction(CCFadeOut::create(1.0f));
+			right->runAction(
+					CCSequence::createWithTwoActions(CCFadeOut::create(1.0f),
+							CCCallFunc::create(this,
+									callfunc_selector(
+											MainLayer::reCreateNewRole))));
+		}
 	}
 
 }
+
+void MainLayer::playRunAnimation()
+{
+	CCSprite *left = (CCSprite*) this->getChildByTag(TAG_LEFT);
+	CCSprite *right = (CCSprite*) this->getChildByTag(TAG_RIGHT);
+	/*-- 走路动画 --*/
+	left->stopActionByTag(TAG_ACTION_JUMP);
+	right->stopActionByTag(TAG_ACTION_JUMP);
+	CCAnimation* ultramanAnimation =
+			CCAnimationCache::sharedAnimationCache()->animationByName(
+					"ultraman");
+	CCAnimation* dragonAnimation =
+			CCAnimationCache::sharedAnimationCache()->animationByName("dragon");
+	CCAction* ultraman = CCRepeatForever::create(
+			CCAnimate::create(ultramanAnimation));
+	CCAction* dragon = CCRepeatForever::create(
+			CCAnimate::create(dragonAnimation));
+	ultraman->setTag(TAG_ACTION_RUN);
+	dragon->setTag(TAG_ACTION_RUN);
+	left->runAction(ultraman);
+	right->runAction(dragon);
+}
+
+void MainLayer::playJumpAnimation(CCNode *node)
+{
+	/*-- 走路动画 --*/
+	node->stopActionByTag(TAG_ACTION_RUN);
+	CCAction* animation;
+	if (node->getTag() == TAG_LEFT)
+	{
+		CCAnimation* ultramanAnimation =
+				CCAnimationCache::sharedAnimationCache()->animationByName(
+						"ultramanjump");
+		animation = CCRepeatForever::create(
+				CCAnimate::create(ultramanAnimation));
+	}
+	else
+	{
+		CCAnimation* dragonAnimation =
+				CCAnimationCache::sharedAnimationCache()->animationByName(
+						"dragonjump");
+		animation = CCRepeatForever::create(CCAnimate::create(dragonAnimation));
+	}
+	node->setTag(TAG_ACTION_JUMP);
+	node->runAction(animation);
+}
+
+void MainLayer::playDropAnimation()
+{
+	CCSprite *left = (CCSprite*) this->getChildByTag(TAG_LEFT);
+	CCSprite *right = (CCSprite*) this->getChildByTag(TAG_RIGHT);
+	/*-- 走路动画 --*/
+	left->stopAllActions();
+	right->stopAllActions();
+	CCPoint la = left->getAnchorPoint();
+	CCPoint ra = right->getAnchorPoint();
+	left->initWithSpriteFrameName("ultraman_big_18.png");
+	right->initWithSpriteFrameName("dragon_big_18.png");
+	left->setAnchorPoint(la);
+	right->setAnchorPoint(ra);
+
+	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
+	float width = vsize.width / 2;
+	float height = vsize.height / 2;
+	left->runAction(CCMoveTo::create(1.0f, ccp(left->getPositionX(), -height)));
+	right->runAction(
+			CCSequence::createWithTwoActions(
+					CCMoveTo::create(1.0f, ccp(right->getPositionX(), -height)),
+					CCCallFunc::create(this,
+							callfunc_selector(MainLayer::gameover))));
+}
+
+void MainLayer::gameover()
+{
+	CCDirector* pDirector = CCDirector::sharedDirector();
+	CCScene *pScene = FinishLayer::scene();
+	pDirector->replaceScene(pScene);
+}
+
