@@ -38,9 +38,6 @@ bool MainLayer::init()
 	float height = vsize.height / 2;
 	Counter *counter = Counter::sharedCounter();
 	CCTextureCache *cache = CCTextureCache::sharedTextureCache();
-	/*-- 背景 --*/
-	CCLayer *bgLayer = BgLayer::create();
-	this->addChild(bgLayer);
 
 	/*-- door --*/
 	//左侧
@@ -102,6 +99,9 @@ CCScene * MainLayer::scene()
 	{
 		if (scene)
 		{
+			/*-- 背景 --*/
+			CCLayer *bgLayer = BgLayer::create();
+			scene->addChild(bgLayer);
 			MainLayer *layer = MainLayer::create();
 			scene->addChild(layer);
 		}

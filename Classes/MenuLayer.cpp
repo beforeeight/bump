@@ -11,6 +11,16 @@
 #include "Counter.h"
 #include "AppMacros.h"
 
+#define TAG_SCENE_BG 1;
+#define TAG_SCENE_MENUBG 2;
+#define TAG_SCENE_MENU 3;
+
+#define TAG_LAYER_SOUND 1;
+#define TAG_LAYER_FEEDBACK 2;
+#define TAG_LAYER_START 3;
+#define TAG_LAYER_RANKING 4;
+#define TAG_LAYER_MORE 5;
+
 using namespace CocosDenshion;
 
 MenuLayer::MenuLayer()
@@ -34,16 +44,12 @@ bool MenuLayer::init()
 		float height = vsize.height / 2;
 		/* initialize the counter */
 		Counter *counter = Counter::sharedCounter();
-		CCTextureCache *cache = CCTextureCache::sharedTextureCache();
-
-		/*-- 背景 --*/
-		this->addChild(BgLayer::create());
+		//CCTextureCache *cache = CCTextureCache::sharedTextureCache();
 
 		/*-- 所有按钮 --*/
 		//声音
-		CCSprite *soundbg = CCSprite::createWithTexture(
-				cache->textureForKey(("btn_small.png")));
-
+		CCMenuItemImage *soundbg = CCMenuItemImage::create(("btn_small.png"),
+				("btn_small.png"));
 		CCMenuItemImage *soundon = CCMenuItemImage::create(("btn_sound_on.png"),
 				("btn_sound_on.png"));
 		CCMenuItemImage *soundoff = CCMenuItemImage::create(
@@ -69,10 +75,11 @@ bool MenuLayer::init()
 								+ soundbg->getContentSize().width / 2,
 						soundbg->getPosition().y
 								- soundbg->getContentSize().height / 2));
-
-//		soundtxt->setAnchorPoint(ccp(0.5, 0.5));
+		soundtxt->setAnchorPoint(ccp(0.5, 0.5));
+		soundbg->setEnabled(false);
 		this->addChild(soundtxt, 3);
 		this->addChild(soundbg, 2);
+
 		//反馈
 		CCMenuItemImage *feedbackbg = CCMenuItemImage::create(("btn_small.png"),
 				("btn_small.png"), this,
@@ -93,10 +100,10 @@ bool MenuLayer::init()
 		startbg->setPosition(ccp(1, -160));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
 		starttxt->setPosition(
-				ccp(startbg->getContentSize().width / 2,
-						startbg->getContentSize().height / 2));
+				ccp(startbg->getPosition().x, startbg->getPosition().y));
+		starttxt->setAnchorPoint(ccp(0.5, 0.5));
 		this->addChild(startbg, 2);
-		startbg->addChild(starttxt, 3);
+		this->addChild(starttxt, 3);
 
 		//排行榜
 		CCMenuItem *rankingbg = CCMenuItemImage::create(("btn_big.png"),
@@ -110,6 +117,14 @@ bool MenuLayer::init()
 		rankingtxt->setPosition(
 				ccp(rankingbg->getContentSize().width / 2,
 						rankingbg->getContentSize().height / 2));
+
+//		rankingtxt->setPosition(
+//				ccp(
+//						rankingbg->getPosition().x
+//								+ rankingbg->getContentSize().width / 2,
+//								rankingbg->getPosition().y
+//								- rankingbg->getContentSize().height / 2));
+
 		this->addChild(rankingbg, 2);
 		rankingbg->addChild(rankingtxt);
 
@@ -143,6 +158,8 @@ CCScene * MenuLayer::scene()
 	{
 		if (scene)
 		{
+			/*-- 背景 --*/
+			scene->addChild(BgLayer::create());
 			MenuLayer *layer = MenuLayer::create();
 			scene->addChild(layer);
 		}
@@ -198,3 +215,21 @@ void MenuLayer::onMoreItem(CCObject *object)
 	CCLog("更多游戏");
 }
 
+bool MenuBgLayer::init()
+{
+	CCTextureCache *cache = CCTextureCache::sharedTextureCache();
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	this->ignoreAnchorPointForPosition(true);
+	setAnchorPoint(ccp(0.5f, 0.5f));
+	this->setContentSize(s);
+	setPosition(ccp(s.width / 2, s.height / 2));
+	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
+	float width = vsize.width / 2;
+	float height = vsize.height / 2;
+
+	CCSprite *soundbg = CCSprite::createWithTexture(
+			cache->textureForKey(("btn_small.png")));
+	soundbg->setPosition(ccp(-width + 15, height - 15));
+	soundbg->setAnchorPoint(ccp(0, 1));
+	return true;
+}

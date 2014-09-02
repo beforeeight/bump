@@ -38,4 +38,16 @@ private:
 	void onMoreItem(CCObject *object);
 };
 
+class MenuBgLayer: public CCLayer
+{
+public:
+	MenuBgLayer();
+
+	~MenuBgLayer();
+
+	virtual bool init();
+
+	CREATE_FUNC(MenuBgLayer)
+
+};
 #endif /* MENULAYER_H_ */

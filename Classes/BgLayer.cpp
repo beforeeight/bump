@@ -24,7 +24,11 @@ bool BgLayer::init()
 {
 	if (CCLayer::init())
 	{
-
+		CCSize s = CCDirector::sharedDirector()->getWinSize();
+		this->ignoreAnchorPointForPosition(true);
+		setAnchorPoint(ccp(0.5f, 0.5f));
+		this->setContentSize(s);
+		setPosition(ccp(s.width / 2, s.height / 2));
 		CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
 		float width = vsize.width / 2;
 		float height = vsize.height / 2;
@@ -32,7 +36,9 @@ bool BgLayer::init()
 		Counter *counter = Counter::sharedCounter();
 		CCTextureCache *cache = CCTextureCache::sharedTextureCache();
 		/*-- 背景 --*/
-		CCLog(CCFileUtils::sharedFileUtils()->fullPathForFilename("background.png").c_str());
+		CCLog(
+				CCFileUtils::sharedFileUtils()->fullPathForFilename(
+						"background.png").c_str());
 		CCSprite *bg = CCSprite::createWithTexture(
 				cache->textureForKey(("background.png")));
 		this->addChild(bg, 0);

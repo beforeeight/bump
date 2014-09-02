@@ -34,8 +34,6 @@ bool FinishLayer::init()
 
 		Counter *counter = Counter::sharedCounter();
 		CCTextureCache *cache = CCTextureCache::sharedTextureCache();
-		/*-- 背景 --*/
-		this->addChild(BgLayer::create());
 
 		/*-- 所有按钮 --*/
 		//最高分
@@ -102,6 +100,8 @@ CCScene * FinishLayer::scene()
 	{
 		if (scene)
 		{
+			/*-- 背景 --*/
+			scene->addChild(BgLayer::create());
 			FinishLayer *layer = FinishLayer::create();
 			scene->addChild(layer);
 		}
