@@ -1,4 +1,5 @@
 bin/
+*.db
 # Compiled Object files
 *.slo
 *.lo
