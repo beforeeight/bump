@@ -160,8 +160,8 @@ void AppDelegate::loadResources() const
 	/*-- 怪兽动画 --*/
 	frameCache->addSpriteFramesWithFile("dragon_big.plist");
 	CCArray *dragons = CCArray::createWithCapacity(15);
-	CCArray *dragonjumps = CCArray::createWithCapacity(2);
-	for (unsigned int i = 0; i < 17; i++)
+	CCArray *dragonjumps = CCArray::createWithCapacity(3);
+	for (unsigned int i = 0; i < 18; i++)
 	{
 		sprintf(str, "dragon_big_%d.png", i + 1);
 		if (i < 15)
@@ -183,8 +183,8 @@ void AppDelegate::loadResources() const
 	/*-- 奥特曼动画 --*/
 	frameCache->addSpriteFramesWithFile("ultraman_big.plist");
 	CCArray *ultramans = CCArray::createWithCapacity(15);
-	CCArray *ultramanjumps = CCArray::createWithCapacity(2);
-	for (unsigned int i = 0; i < 17; i++)
+	CCArray *ultramanjumps = CCArray::createWithCapacity(3);
+	for (unsigned int i = 0; i < 18; i++)
 	{
 		sprintf(str, "ultraman_big_%d.png", i + 1);
 		if (i < 15)

@@ -184,13 +184,13 @@ void MainLayer::update(float delta)
 			//计分
 			Counter *counter = Counter::sharedCounter();
 			(*counter)++;
-
-			left->runAction(CCFadeOut::create(0.8f));
-			right->runAction(
-					CCSequence::createWithTwoActions(CCFadeOut::create(0.8f),
-							CCCallFunc::create(this,
-									callfunc_selector(
-											MainLayer::reCreateNewRole))));
+			this->reCreateNewRole();
+//			left->runAction(CCFadeOut::create(0.8f));
+//			right->runAction(
+//					CCSequence::createWithTwoActions(CCFadeOut::create(0.8f),
+//							CCCallFunc::create(this,
+//									callfunc_selector(
+//											MainLayer::reCreateNewRole))));
 		}
 	}
 
@@ -250,8 +250,8 @@ void MainLayer::playDropAnimation()
 	right->stopAllActions();
 	CCPoint la = left->getAnchorPoint();
 	CCPoint ra = right->getAnchorPoint();
-	left->initWithSpriteFrameName("ultraman_big_18.png");
-	right->initWithSpriteFrameName("dragon_big_18.png");
+	left->initWithSpriteFrameName("ultraman_big_19.png");
+	right->initWithSpriteFrameName("dragon_big_19.png");
 	left->setAnchorPoint(la);
 	right->setAnchorPoint(ra);
 
