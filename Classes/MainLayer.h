@@ -46,6 +46,8 @@ private:
 
 	void playDropAnimation();
 
+	void playExplosionAnimation(const CCPoint &p);
+
 	void gameover();
 };
 

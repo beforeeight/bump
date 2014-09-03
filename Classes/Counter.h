@@ -12,7 +12,7 @@
 
 USING_NS_CC;
 
-class Counter: public cocos2d::CCLabelTTF
+class Counter
 {
 public:
 	Counter();
@@ -20,6 +20,8 @@ public:
 	~Counter();
 
 	Counter& operator++(int);
+
+	void clearScore();
 
 	static Counter *sharedCounter();
 
@@ -42,6 +44,9 @@ public:
 	const bool isSound();
 
 	bool toggleSound();
+
+	CCLabelBMFont * create_label();
+
 private:
 	unsigned int counter;
 
@@ -50,6 +55,8 @@ private:
 	unsigned int times;
 
 	bool sound;
+
+	CCLabelBMFont *scoreLabel;
 };
 
 #endif /* COUNTER_H_ */

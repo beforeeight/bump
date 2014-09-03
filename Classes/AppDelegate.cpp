@@ -91,21 +91,12 @@ void AppDelegate::loadResources() const
 	// create TARGET_DESIGN_RESOLUTION_SIZEa scene. it's an autorelease object
 	//SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music.mp3");
 	//CCTextureCache::sharedTextureCache()->addImage("airplan.png");
-
 	CCTextureCache::sharedTextureCache()->addImage(("background.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_bridge.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_score.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("btn_big.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("btn_small.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_gameover.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("dragon_big_1.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("dragon_small_1.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("ultraman_big_1.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("ultraman_small_1.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("pic_door.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("pic_door_light.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("pic_light_1.png"));
-	CCTextureCache::sharedTextureCache()->addImage(("pic_light_2.png"));
 
 //	CCTextureCache::sharedTextureCache()->addImage(respath("btn_feedback.png"));
 //	CCTextureCache::sharedTextureCache()->addImage(
@@ -151,7 +142,7 @@ void AppDelegate::loadResources() const
 		booms->addObject(frameCache->spriteFrameByName(str));
 	}
 	CCAnimation *boom = CCAnimation::createWithSpriteFrames(booms);
-	boom->setDelayPerUnit(0.5f);
+	boom->setDelayPerUnit(1.0f / 8.0f);
 	animCache->addAnimation(boom, "boom");
 
 	/*-- 门动画 --*/
@@ -185,7 +176,7 @@ void AppDelegate::loadResources() const
 	CCAnimation *dragon = CCAnimation::createWithSpriteFrames(dragons);
 	CCAnimation *dragonjump = CCAnimation::createWithSpriteFrames(dragonjumps);
 	dragon->setDelayPerUnit(0.1f);
-	dragonjump->setDelayPerUnit(0.2f);
+	dragonjump->setDelayPerUnit(0.5f);
 	animCache->addAnimation(dragon, "dragon");
 	animCache->addAnimation(dragonjump, "dragonjump");
 
@@ -209,7 +200,7 @@ void AppDelegate::loadResources() const
 	CCAnimation *ultramanjump = CCAnimation::createWithSpriteFrames(
 			ultramanjumps);
 	ultraman->setDelayPerUnit(0.1f);
-	ultramanjump->setDelayPerUnit(0.2f);
+	ultramanjump->setDelayPerUnit(0.5f);
 	animCache->addAnimation(ultraman, "ultraman");
 	animCache->addAnimation(ultramanjump, "ultramanjump");
 }

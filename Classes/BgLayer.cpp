@@ -72,16 +72,6 @@ bool BgLayer::init()
 				cache->textureForKey(("bg_score.png")));
 		title->setPosition(ccp(0, height - 30));
 		title->setAnchorPoint(ccp(0.5, 1));
-
-		CCLabelTTF *titletxt = CCLabelTTF::create();
-		titletxt->setString(counter->getDisplayCounter());
-		titletxt->setFontSize(30);
-		titletxt->setColor(ccc3(255, 0, 0));
-		titletxt->setAnchorPoint(ccp(0.5, 0.5));
-		titletxt->setPosition(
-				ccp(title->getContentSize().width / 2,
-						title->getContentSize().height / 2));
-		title->addChild(titletxt);
 		this->addChild(title);
 		return true;
 	}

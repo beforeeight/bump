@@ -14,9 +14,10 @@
 
 #define TAG_LEFT 0
 #define TAG_RIGHT 1
+#define TAG_SCORE 3
 #define TAG_ACTION_RUN 1
 #define TAG_ACTION_JUMP 2
-#define TAG_ACTION_DROP 2
+#define TAG_ACTION_DROP 3
 
 MainLayer::MainLayer()
 {
@@ -28,6 +29,7 @@ MainLayer::MainLayer()
 
 bool MainLayer::init()
 {
+	/*-- 设置整体层属性 --*/
 	this->setTouchMode(kCCTouchesOneByOne);
 	this->setTouchEnabled(true);
 	this->scheduleUpdate();
@@ -36,11 +38,12 @@ bool MainLayer::init()
 	setAnchorPoint(ccp(0.5f, 0.5f));
 	this->setContentSize(s);
 	setPosition(ccp(s.width / 2, s.height / 2));
+
 	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
 	float width = vsize.width / 2;
 	float height = vsize.height / 2;
 	Counter *counter = Counter::sharedCounter();
-	CCTextureCache *cache = CCTextureCache::sharedTextureCache();
+	counter->clearScore();
 
 	/*-- door --*/
 	CCAnimation *doorAnimation =
@@ -61,6 +64,17 @@ bool MainLayer::init()
 	rightDoor->runAction(
 			CCRepeatForever::create(CCAnimate::create(doorAnimation)));
 
+	/*-- 分数 --*/
+	CCLabelTTF *titletxt = CCLabelTTF::create("Score", "Verdana-Bold", 46);
+	titletxt->setColor(ccc3(98, 104, 191));
+	titletxt->setAnchorPoint(ccp(0.5, 0.5));
+	titletxt->setPosition(ccp(0, height - 130));
+	this->addChild(titletxt);
+
+	CCNode *scoreLabel = counter->create_label();
+	scoreLabel->setPosition(ccp(0, height - 200));
+	scoreLabel->setAnchorPoint(ccp(0.5, 1));
+	this->addChild(scoreLabel, 3, TAG_SCORE);
 	/*-- role --*/
 	this->createNewRole();
 	return true;
@@ -92,40 +106,12 @@ CCScene * MainLayer::scene()
 	}
 }
 
-bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
-{ /*-- 跳动作 --*/
-	//CCDirector::sharedDirector()->replaceScene(FinishLayer::scene());
-	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint location = pTouch->getLocation();
-	CCNode *node;
-	if (location.x < vsize.width / 2)
-	{
-		node = this->getChildByTag(TAG_LEFT);
-	}
-	else
-	{
-		node = this->getChildByTag(TAG_RIGHT);
-	}
-	node->runAction(
-			CCJumpBy::create(speed / ratio, ccp(0, 0),
-					node->getContentSize().height, 1));
-	//playJumpAnimation(node);
-	return true;
-}
-
 void MainLayer::createNewRole()
 {
 	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
 	float width = vsize.width / 2;
 	float height = vsize.height / 2;
-	CCTextureCache *cache = CCTextureCache::sharedTextureCache();
-
 	CCSprite *left = CCSprite::createWithSpriteFrameName("ultraman_big_1.png");
-//	CCSprite *left = CCSprite::createWithTexture(
-//			CCTextureCache::sharedTextureCache()->textureForKey(
-//					"ultraman_big_1.png"));
-	//
-
 	CCSprite *right = CCSprite::createWithSpriteFrameName("dragon_big_1.png");
 	if (CCRANDOM_0_1() < 0.5)
 	{
@@ -156,6 +142,27 @@ void MainLayer::reCreateNewRole()
 	this->createNewRole();
 }
 
+bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
+{ /*-- 跳动作 --*/
+	//CCDirector::sharedDirector()->replaceScene(FinishLayer::scene());
+	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint location = pTouch->getLocation();
+	CCNode *node;
+	if (location.x < vsize.width / 2)
+	{
+		node = this->getChildByTag(TAG_LEFT);
+	}
+	else
+	{
+		node = this->getChildByTag(TAG_RIGHT);
+	}
+	node->runAction(
+			CCJumpBy::create(speed / ratio, ccp(0, 0),
+					node->getContentSize().height, 1));
+	playJumpAnimation(node);
+	return true;
+}
+
 void MainLayer::update(float delta)
 {
 	CCNode *left = this->getChildByTag(TAG_LEFT);
@@ -168,21 +175,19 @@ void MainLayer::update(float delta)
 		if (leftRect.intersectsRect(rightRect))
 		{
 			disappearing = true;
-			CCLog("left width: %f, right width: %f", leftRect.size.width,
-					rightRect.size.width);
-			CCLog("left getMinX: %f, left getMaxX: %f", leftRect.getMinX(),
-					leftRect.getMaxX());
-			CCLog("right getMinX: %f, right getMaxX: %f", rightRect.getMinX(),
-					rightRect.getMaxX());
 			/*爆炸*/
 			playDropAnimation();
 		}
 		else if (left->getPosition().x > right->getPosition().x)
 		{
 			disappearing = true;
-			left->runAction(CCFadeOut::create(1.0f));
+			//计分
+			Counter *counter = Counter::sharedCounter();
+			(*counter)++;
+
+			left->runAction(CCFadeOut::create(0.8f));
 			right->runAction(
-					CCSequence::createWithTwoActions(CCFadeOut::create(1.0f),
+					CCSequence::createWithTwoActions(CCFadeOut::create(0.8f),
 							CCCallFunc::create(this,
 									callfunc_selector(
 											MainLayer::reCreateNewRole))));
@@ -215,7 +220,7 @@ void MainLayer::playRunAnimation()
 
 void MainLayer::playJumpAnimation(CCNode *node)
 {
-	/*-- 走路动画 --*/
+	/*-- 跳动画 --*/
 	node->stopActionByTag(TAG_ACTION_RUN);
 	CCAction* animation;
 	if (node->getTag() == TAG_LEFT)
@@ -223,17 +228,16 @@ void MainLayer::playJumpAnimation(CCNode *node)
 		CCAnimation* ultramanAnimation =
 				CCAnimationCache::sharedAnimationCache()->animationByName(
 						"ultramanjump");
-		animation = CCRepeatForever::create(
-				CCAnimate::create(ultramanAnimation));
+		animation = CCAnimate::create(ultramanAnimation);
 	}
 	else
 	{
 		CCAnimation* dragonAnimation =
 				CCAnimationCache::sharedAnimationCache()->animationByName(
 						"dragonjump");
-		animation = CCRepeatForever::create(CCAnimate::create(dragonAnimation));
+		animation = CCAnimate::create(dragonAnimation);
 	}
-	node->setTag(TAG_ACTION_JUMP);
+	animation->setTag(TAG_ACTION_JUMP);
 	node->runAction(animation);
 }
 
@@ -256,8 +260,25 @@ void MainLayer::playDropAnimation()
 	float height = vsize.height / 2;
 	left->runAction(CCMoveTo::create(1.0f, ccp(left->getPositionX(), -height)));
 	right->runAction(
+			CCMoveTo::create(1.0f, ccp(right->getPositionX(), -height)));
+	CCPoint p = (left->getPosition() + ccp(0, left->getContentSize().height / 2)
+			+ right->getPosition() + ccp(0, right->getContentSize().height / 2))
+			/ 2.0f;
+	playExplosionAnimation(p);
+}
+
+void MainLayer::playExplosionAnimation(const CCPoint &p)
+{
+	CCSprite *explostion = CCSprite::createWithSpriteFrame(
+			CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(
+					"boom_1.png"));
+	CCAnimation* explostionAnimation =
+			CCAnimationCache::sharedAnimationCache()->animationByName("boom");
+	explostion->setPosition(p);
+	this->addChild(explostion);
+	explostion->runAction(
 			CCSequence::createWithTwoActions(
-					CCMoveTo::create(1.0f, ccp(right->getPositionX(), -height)),
+					CCAnimate::create(explostionAnimation),
 					CCCallFunc::create(this,
 							callfunc_selector(MainLayer::gameover))));
 }

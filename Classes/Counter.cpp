@@ -12,11 +12,29 @@ Counter::Counter()
 	this->counter = 0;
 	sound = true;
 	load();
+	scoreLabel = 0;
 }
 
 Counter::~Counter()
 {
 // TODO Auto-generated destructor stub
+}
+
+CCLabelBMFont * Counter::create_label()
+{
+	if (scoreLabel)
+	{
+		CC_SAFE_RELEASE(scoreLabel);
+	}
+	scoreLabel = CCLabelBMFont::create(
+			CCString::createWithFormat("%d",
+					Counter::sharedCounter()->getCounter())->getCString(),
+			"fonts.fnt");
+	if (scoreLabel)
+	{
+		CC_SAFE_RETAIN(scoreLabel);
+	}
+	return scoreLabel;
 }
 
 Counter* Counter::sharedCounter()
@@ -25,16 +43,23 @@ Counter* Counter::sharedCounter()
 	if (counter == NULL)
 	{
 		counter = new Counter();
-		counter->initWithString(counter->getDisplayCounter(), "Courier", 20.0f);
 	}
+
 	return counter;
 }
 
 Counter& Counter::operator++(int)
 {
 	this->counter++;
-	this->setString(this->getDisplayCounter());
+	scoreLabel->setString(
+			CCString::createWithFormat("%d", counter)->getCString());
 	return *this;
+}
+
+void Counter::clearScore()
+{
+	this->counter = 0;
+
 }
 
 int Counter::getCounter() const
