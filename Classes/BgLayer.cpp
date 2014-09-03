@@ -48,23 +48,58 @@ bool BgLayer::init()
 
 		/*-- 小鸟 --*/
 		CCSprite *bird = CCSprite::createWithSpriteFrameName("bird_1.png");
-		bird->setPosition(ccp(150, 180));
+		bird->setPosition(ccp(width + bird->getContentSize().width, 180));
 		this->addChild(bird, 1);
 		CCAnimation *birdAnimation =
 				CCAnimationCache::sharedAnimationCache()->animationByName(
 						"bird");
 		bird->runAction(
 				CCRepeatForever::create(CCAnimate::create(birdAnimation)));
+		bird->runAction(
+				CCRepeatForever::create(
+						CCSequence::create(
+								CCMoveTo::create(2,
+										ccp(
+												-width
+														- bird->getContentSize().width,
+												bird->getPositionY())),
+								CCFlipX::create(true),
+								CCDelayTime::create(1.0f),
+								CCMoveTo::create(2,
+										ccp(
+												width
+														+ bird->getContentSize().width,
+												bird->getPositionY())),
+								CCFlipX::create(false),
+								NULL)));
 
 		/*-- 飞机 --*/
 		CCSprite *plane = CCSprite::createWithSpriteFrameName("plane_1.png");
-		plane->setPosition(ccp(260, 180));
+		plane->setPosition(ccp(width + plane->getContentSize().width, 180));
 		this->addChild(plane, 1);
 		CCAnimation *planeAnimation =
 				CCAnimationCache::sharedAnimationCache()->animationByName(
 						"plane");
 		plane->runAction(
 				CCRepeatForever::create(CCAnimate::create(planeAnimation)));
+
+		plane->runAction(
+				CCRepeatForever::create(
+						CCSequence::create(CCDelayTime::create(0.5f),
+								CCMoveTo::create(2,
+										ccp(
+												-width
+														- plane->getContentSize().width,
+												plane->getPositionY())),
+								CCFlipX::create(true),
+								CCMoveTo::create(2,
+										ccp(
+												width
+														+ plane->getContentSize().width,
+												plane->getPositionY())),
+								CCFlipX::create(false),
+								CCDelayTime::create(0.5f),
+								NULL)));
 
 		/*-- 计分 --*/
 		//当前得分
