@@ -37,11 +37,11 @@ bool FinishLayer::init()
 
 		/*-- 所有按钮 --*/
 		//最高分
-		CCSprite *score = CCLabelTTF::createWithTexture(
-				cache->textureForKey(("bg_gameover.png")));
-		score->setPosition(ccp(0, 30));
-		score->setAnchorPoint(ccp(0.5, 0.5));
-		this->addChild(score);
+		CCMenuItem *scorebg = CCMenuItemImage::create("bg_gameover.png",
+				"bg_gameover.png");
+		scorebg->setPosition(ccp(0, 30));
+		scorebg->setAnchorPoint(ccp(0.5, 0.5));
+		this->addChild(scorebg);
 
 		//开始游戏
 		CCMenuItemImage *startbg = CCMenuItemImage::create(("btn_big.png"),
