@@ -77,15 +77,25 @@ int Counter::getTimes() const
 	return this->times;
 }
 
-void Counter::save() const
+void Counter::save()
 {
-
+	times++;
+	if (counter > highScore)
+	{
+		highScore = counter;
+	}
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("highScore",
+			highScore);
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("times", times);
+	CCUserDefault::sharedUserDefault()->flush();
 }
 
 void Counter::load()
 {
-	this->highScore = 2000;
-	this->times = 123;
+	this->highScore = CCUserDefault::sharedUserDefault()->getIntegerForKey(
+			"highScore", 0);
+	this->times = CCUserDefault::sharedUserDefault()->getIntegerForKey("times",
+			0);
 }
 
 const char* Counter::getDisplayCounter() const

@@ -33,7 +33,7 @@ bool FinishLayer::init()
 		/* initialize the counter */
 
 		Counter *counter = Counter::sharedCounter();
-		CCTextureCache *cache = CCTextureCache::sharedTextureCache();
+		counter->save();
 		/*-- 本局得分 --*/
 		/*-- 分数 --*/
 		CCLabelTTF *titleLabel = CCLabelTTF::create("Score", "Verdana-Bold",
