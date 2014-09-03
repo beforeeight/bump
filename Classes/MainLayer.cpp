@@ -25,6 +25,8 @@ MainLayer::MainLayer()
 	disappearing = false;
 	speed = 5.0f;
 	ratio = 2.0f;
+	leftJumping = false;
+	rightJumping = false;
 }
 
 bool MainLayer::init()
@@ -147,19 +149,30 @@ bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 	//CCDirector::sharedDirector()->replaceScene(FinishLayer::scene());
 	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint location = pTouch->getLocation();
-	CCNode *node;
+	CCNode *node = 0;
 	if (location.x < vsize.width / 2)
 	{
-		node = this->getChildByTag(TAG_LEFT);
+		if (!leftJumping)
+		{
+			node = this->getChildByTag(TAG_LEFT);
+			leftJumping = true;
+		}
 	}
 	else
 	{
-		node = this->getChildByTag(TAG_RIGHT);
+		if (!rightJumping)
+		{
+			node = this->getChildByTag(TAG_RIGHT);
+			rightJumping = true;
+		}
 	}
-	node->runAction(
-			CCJumpBy::create(speed / ratio, ccp(0, 0),
-					node->getContentSize().height, 1));
-	playJumpAnimation(node);
+	if (node)
+	{
+		node->runAction(
+				CCJumpBy::create(speed / ratio, ccp(0, 0),
+						node->getContentSize().height, 1));
+		playJumpAnimation(node);
+	}
 	return true;
 }
 
@@ -181,6 +194,8 @@ void MainLayer::update(float delta)
 		else if (left->getPosition().x > right->getPosition().x)
 		{
 			disappearing = true;
+			leftJumping = false;
+			rightJumping = false;
 			//计分
 			Counter *counter = Counter::sharedCounter();
 			(*counter)++;

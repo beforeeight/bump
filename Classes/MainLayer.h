@@ -36,6 +36,10 @@ private:
 
 	bool disappearing;
 
+	bool leftJumping;
+
+	bool rightJumping;
+
 	void createNewRole();
 
 	void reCreateNewRole();
