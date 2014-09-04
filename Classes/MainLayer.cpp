@@ -18,13 +18,14 @@
 #define TAG_ACTION_RUN 1
 #define TAG_ACTION_JUMP 2
 #define TAG_ACTION_DROP 3
+#define TAG_ACTION_MOVE 4
 
 MainLayer::MainLayer()
 {
 	// TODO Auto-generated constructor stub
 	disappearing = false;
-	speed = 5.0f;
-	ratio = 2.0f;
+	speed = 4.0f;
+	ratio = 5.0f;
 	leftJumping = false;
 	rightJumping = false;
 }
@@ -129,8 +130,12 @@ void MainLayer::createNewRole()
 	right->setPosition(ccp(width, -height + 230));
 	right->setAnchorPoint(ccp(1, 0));
 	this->addChild(right, 3, TAG_RIGHT);
-	left->runAction(CCMoveBy::create(speed, ccp(2 * width, 0)));
-	right->runAction(CCMoveBy::create(speed, ccp(-2 * width, 0)));
+	CCAction *leftMoving = CCMoveBy::create(speed, ccp(2 * width, 0));
+	CCAction *rightMoving = CCMoveBy::create(speed, ccp(-2 * width, 0));
+	leftMoving->setTag(TAG_ACTION_MOVE);
+	rightMoving->setTag(TAG_ACTION_MOVE);
+	left->runAction(leftMoving);
+	right->runAction(rightMoving);
 	disappearing = false;
 
 	/*-- 走路动画 --*/
@@ -168,9 +173,12 @@ bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 	}
 	if (node)
 	{
-		node->runAction(
-				CCJumpBy::create(speed / ratio, ccp(0, 0),
-						node->getContentSize().height, 1));
+		CCActionInterval *jump = CCJumpBy::create(speed / ratio, ccp(0, 0),
+				node->getContentSize().height, 1);
+		node->runAction(jump);
+		CCActionInterval *moving = (CCActionInterval*) node->getActionByTag(
+		TAG_ACTION_MOVE);
+		node->runAction(CCSpeed::create(moving, 1.2f));
 		playJumpAnimation(node);
 	}
 	return true;
@@ -178,13 +186,15 @@ bool MainLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
 
 void MainLayer::update(float delta)
 {
-	CCNode *left = this->getChildByTag(TAG_LEFT);
-	CCNode *right = this->getChildByTag(TAG_RIGHT);
-
-	CCRect leftRect = left->boundingBox();
-	CCRect rightRect = right->boundingBox();
 	if (!disappearing)
 	{
+		CCNode *left = this->getChildByTag(TAG_LEFT);
+		CCNode *right = this->getChildByTag(TAG_RIGHT);
+
+		CCRect leftRect = left->boundingBox();
+		CCRect rightRect = right->boundingBox();
+		leftRect.size = leftRect.size * 0.8;
+		rightRect.size = rightRect.size * 0.8;
 		if (leftRect.intersectsRect(rightRect))
 		{
 			disappearing = true;

@@ -175,8 +175,8 @@ void AppDelegate::loadResources() const
 	}
 	CCAnimation *dragon = CCAnimation::createWithSpriteFrames(dragons);
 	CCAnimation *dragonjump = CCAnimation::createWithSpriteFrames(dragonjumps);
-	dragon->setDelayPerUnit(0.1f);
-	dragonjump->setDelayPerUnit(0.5f);
+	dragon->setDelayPerUnit(0.07f);
+	dragonjump->setDelayPerUnit(0.33f);
 	animCache->addAnimation(dragon, "dragon");
 	animCache->addAnimation(dragonjump, "dragonjump");
 
@@ -199,8 +199,8 @@ void AppDelegate::loadResources() const
 	CCAnimation *ultraman = CCAnimation::createWithSpriteFrames(ultramans);
 	CCAnimation *ultramanjump = CCAnimation::createWithSpriteFrames(
 			ultramanjumps);
-	ultraman->setDelayPerUnit(0.1f);
-	ultramanjump->setDelayPerUnit(0.5f);
+	ultraman->setDelayPerUnit(0.07f);
+	ultramanjump->setDelayPerUnit(0.33f);
 	animCache->addAnimation(ultraman, "ultraman");
 	animCache->addAnimation(ultramanjump, "ultramanjump");
 }
