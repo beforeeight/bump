@@ -79,10 +79,14 @@ bool MainLayer::init()
 	scoreLabel->setAnchorPoint(ccp(0.5, 1));
 	this->addChild(scoreLabel, 3, TAG_SCORE);
 	/*-- role --*/
-	this->createNewRole();
 	return true;
 }
 
+void MainLayer::onEnterTransitionDidFinish()
+{
+	CCLayer::onEnterTransitionDidFinish();
+	this->createNewRole();
+}
 MainLayer::~MainLayer()
 {
 }
@@ -134,6 +138,7 @@ void MainLayer::createNewRole()
 	CCAction *rightMoving = CCMoveBy::create(speed, ccp(-2 * width, 0));
 	leftMoving->setTag(TAG_ACTION_MOVE);
 	rightMoving->setTag(TAG_ACTION_MOVE);
+
 	left->runAction(leftMoving);
 	right->runAction(rightMoving);
 	disappearing = false;
@@ -193,32 +198,35 @@ void MainLayer::update(float delta)
 	{
 		CCNode *left = this->getChildByTag(TAG_LEFT);
 		CCNode *right = this->getChildByTag(TAG_RIGHT);
+		if (left && right)
+		{
 
-		CCRect leftRect = left->boundingBox();
-		CCRect rightRect = right->boundingBox();
-		leftRect.size = leftRect.size * 0.8;
-		rightRect.size = rightRect.size * 0.8;
-		if (leftRect.intersectsRect(rightRect))
-		{
-			disappearing = true;
-			/*爆炸*/
-			playDropAnimation();
-		}
-		else if (left->getPosition().x > right->getPosition().x)
-		{
-			disappearing = true;
-			leftJumping = false;
-			rightJumping = false;
-			//计分
-			Counter *counter = Counter::sharedCounter();
-			(*counter)++;
-			this->reCreateNewRole();
+			CCRect leftRect = left->boundingBox();
+			CCRect rightRect = right->boundingBox();
+			leftRect.size = leftRect.size * 0.8;
+			rightRect.size = rightRect.size * 0.8;
+			if (leftRect.intersectsRect(rightRect))
+			{
+				disappearing = true;
+				/*爆炸*/
+				playDropAnimation();
+			}
+			else if (left->getPosition().x > right->getPosition().x)
+			{
+				disappearing = true;
+				leftJumping = false;
+				rightJumping = false;
+				//计分
+				Counter *counter = Counter::sharedCounter();
+				(*counter)++;
+				this->reCreateNewRole();
 //			left->runAction(CCFadeOut::create(0.8f));
 //			right->runAction(
 //					CCSequence::createWithTwoActions(CCFadeOut::create(0.8f),
 //							CCCallFunc::create(this,
 //									callfunc_selector(
 //											MainLayer::reCreateNewRole))));
+			}
 		}
 	}
 
@@ -315,6 +323,7 @@ void MainLayer::gameover()
 {
 	CCDirector* pDirector = CCDirector::sharedDirector();
 	CCScene *pScene = FinishLayer::scene();
-	pDirector->replaceScene(pScene);
+	CCScene *reScene = CCTransitionFadeDown::create(0.5f, pScene);
+	pDirector->replaceScene(reScene);
 }
 

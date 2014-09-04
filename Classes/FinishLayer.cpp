@@ -73,7 +73,8 @@ bool FinishLayer::init()
 		scorebg->addChild(times);
 		//开始游戏
 		CCMenuItemImage *startbg = CCMenuItemImage::create(("btn_big.png"),
-				("btn_big.png"), this, menu_selector(FinishLayer::onAgainItem));
+				("btn_big.png"));
+		startbg->setTarget(startbg, menu_selector(FinishLayer::onAgainItem));
 		CCMenuItemFont *starttxt = CCMenuItemFont::create("Try Again");
 		startbg->setPosition(ccp(1, -160));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
@@ -85,7 +86,8 @@ bool FinishLayer::init()
 
 		//分享
 		CCMenuItem *sharebg = CCMenuItemImage::create(("btn_big.png"),
-				("btn_big.png"), this, menu_selector(FinishLayer::onShareItem));
+				("btn_big.png"));
+		sharebg->setTarget(sharebg, menu_selector(FinishLayer::onShareItem));
 		CCMenuItemFont *sharetxt = CCMenuItemFont::create("Share");
 		sharebg->setPosition(
 				ccp(1,
@@ -100,7 +102,8 @@ bool FinishLayer::init()
 
 		//返回主页
 		CCMenuItem *morebg = CCMenuItemImage::create(("btn_big.png"),
-				("btn_big.png"), this, menu_selector(FinishLayer::onBackItem));
+				("btn_big.png"));
+		morebg->setTarget(morebg, menu_selector(FinishLayer::onBackItem));
 		CCMenuItemFont *moretxt = CCMenuItemFont::create("Main Menu");
 		morebg->setPosition(
 				ccp(0,
@@ -144,19 +147,33 @@ CCScene * FinishLayer::scene()
 
 void FinishLayer::onAgainItem(CCObject *object)
 {
+	CCNode *node = (CCNode *) object;
+	node->runAction(
+			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
 	CCDirector* pDirector = CCDirector::sharedDirector();
 	CCScene *pScene = MainLayer::scene();
-	pDirector->replaceScene(pScene);
+	CCScene *reScene = CCTransitionFadeDown::create(0.5f, pScene);
+	pDirector->replaceScene(reScene);
 }
 
 void FinishLayer::onShareItem(CCObject *object)
 {
+	CCNode *node = (CCNode *) object;
+	node->runAction(
+			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
 	CCLog("分享");
 }
 
 void FinishLayer::onBackItem(CCObject *object)
 {
+	CCNode *node = (CCNode *) object;
+	node->runAction(
+			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
 	CCDirector* pDirector = CCDirector::sharedDirector();
 	CCScene *pScene = MenuLayer::scene();
-	pDirector->replaceScene(pScene);
+	CCScene *reScene = CCTransitionFadeDown::create(0.5f, pScene);
+	pDirector->replaceScene(reScene);
 }

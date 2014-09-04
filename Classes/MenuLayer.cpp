@@ -65,7 +65,7 @@ bool MenuLayer::init()
 			soundtxt = CCMenuItemToggle::create(soundoff);
 			soundtxt->addSubItem(soundon);
 		}
-		soundtxt->setTarget(soundtxt, menu_selector(MenuLayer::onSoundItem));
+		soundtxt->setTarget(soundbg, menu_selector(MenuLayer::onSoundItem));
 
 		soundbg->setPosition(ccp(-width + 15, height - 15));
 		soundbg->setAnchorPoint(ccp(0, 1));
@@ -82,7 +82,8 @@ bool MenuLayer::init()
 
 		//反馈
 		CCMenuItemImage *feedbackbg = CCMenuItemImage::create(("btn_small.png"),
-				("btn_small.png"), this,
+				("btn_small.png"));
+		feedbackbg->setTarget(feedbackbg,
 				menu_selector(MenuLayer::onFeedbackItem));
 		CCMenuItemImage *feedbacktxt = CCMenuItemImage::create(
 				("btn_feedback.png"), ("btn_feedback.png"));
@@ -95,7 +96,8 @@ bool MenuLayer::init()
 		feedbackbg->addChild(feedbacktxt, 3);
 		//开始游戏
 		CCMenuItemImage *startbg = CCMenuItemImage::create(("btn_big.png"),
-				("btn_big.png"), this, menu_selector(MenuLayer::onStartItem));
+				("btn_big.png"));
+		startbg->setTarget(startbg, menu_selector(MenuLayer::onStartItem));
 		CCMenuItemFont *starttxt = CCMenuItemFont::create("start game");
 		startbg->setPosition(ccp(1, -160));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
@@ -107,7 +109,9 @@ bool MenuLayer::init()
 
 		//排行榜
 		CCMenuItem *rankingbg = CCMenuItemImage::create(("btn_big.png"),
-				("btn_big.png"), this, menu_selector(MenuLayer::onRankingItem));
+				("btn_big.png"));
+		rankingbg->setTarget(rankingbg,
+				menu_selector(MenuLayer::onRankingItem));
 		CCMenuItemFont *rankingtxt = CCMenuItemFont::create("Ranking");
 		rankingbg->setPosition(
 				ccp(1,
@@ -130,7 +134,9 @@ bool MenuLayer::init()
 
 		//更多游戏
 		CCMenuItem *morebg = CCMenuItemImage::create(("btn_big.png"),
-				("btn_big.png"), this, menu_selector(MenuLayer::onMoreItem));
+				("btn_big.png"));
+		morebg->setTarget(morebg, menu_selector(MenuLayer::onMoreItem));
+
 		CCMenuItemFont *moretxt = CCMenuItemFont::create("More Games");
 		morebg->setPosition(
 				ccp(0,
@@ -174,7 +180,10 @@ CCScene * MenuLayer::scene()
 
 void MenuLayer::onSoundItem(CCObject *object)
 {
-	CCMenuItemToggle *soundtxt = (CCMenuItemToggle *) object;
+	CCNode *node = (CCNode *) this;
+	node->runAction(
+			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
 	Counter *counter = Counter::sharedCounter();
 	if (counter->isSound())
 	{
@@ -196,22 +205,39 @@ void MenuLayer::onSoundItem(CCObject *object)
 void MenuLayer::onFeedbackItem(CCObject *object)
 {
 	CCLog("反馈");
+	CCNode *node = (CCNode *) object;
+	node->runAction(
+			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
 }
 
 void MenuLayer::onStartItem(CCObject *object)
 {
+	CCNode *node = (CCNode *) object;
+	node->runAction(
+			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
 	CCDirector* pDirector = CCDirector::sharedDirector();
 	CCScene *pScene = MainLayer::scene();
-	pDirector->replaceScene(pScene);
+	CCScene *reScene = CCTransitionFadeDown::create(0.5f, pScene);
+	pDirector->replaceScene(reScene);
 }
 
 void MenuLayer::onRankingItem(CCObject *object)
 {
+	CCNode *node = (CCNode *) object;
+	node->runAction(
+			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
 	CCLog("排行榜");
 }
 
 void MenuLayer::onMoreItem(CCObject *object)
 {
+	CCNode *node = (CCNode *) object;
+	node->runAction(
+			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
 	CCLog("更多游戏");
 }
 

@@ -29,6 +29,9 @@ public:
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 
 	virtual void update(float delta);
+
+	virtual void onEnterTransitionDidFinish();
+
 private:
 	float speed;
 
