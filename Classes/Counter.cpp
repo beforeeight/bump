@@ -6,6 +6,9 @@
  */
 
 #include "Counter.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 Counter::Counter()
 {
@@ -122,6 +125,14 @@ const char* Counter::getDisplayTimes() const
 const bool Counter::isSound()
 {
 	return sound;
+}
+
+void Counter::playEffect(const char* file)
+{
+	if (isSound())
+	{
+		SimpleAudioEngine::sharedEngine()->playEffect(file);
+	}
 }
 
 bool Counter::toggleSound()

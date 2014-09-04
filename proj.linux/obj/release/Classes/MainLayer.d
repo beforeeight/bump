@@ -175,4 +175,6 @@ obj/release/Classes/MainLayer.o: ../Classes/MainLayer.cpp \
  ../../../../cocos2dx/support/component/CCComponent.h \
  ../../../../cocos2dx/support/component/CCComponentContainer.h \
  ../Classes/AppMacros.h ../Classes/BgLayer.h ../Classes/Counter.h \
- ../Classes/FinishLayer.h
+ ../Classes/FinishLayer.h \
+ ../../../../CocosDenshion/include/SimpleAudioEngine.h \
+ ../../../../CocosDenshion/include/Export.h

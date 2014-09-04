@@ -47,6 +47,8 @@ public:
 
 	CCLabelBMFont * create_label();
 
+	void playEffect(const char* file);
+
 private:
 	unsigned int counter;
 

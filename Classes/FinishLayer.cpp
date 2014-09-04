@@ -11,6 +11,9 @@
 #include "MenuLayer.h"
 #include "MainLayer.h"
 #include "AppMacros.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 FinishLayer::FinishLayer()
 {
@@ -31,9 +34,15 @@ bool FinishLayer::init()
 		float width = vsize.width / 2;
 		float height = vsize.height / 2;
 		/* initialize the counter */
-
 		Counter *counter = Counter::sharedCounter();
 		counter->save();
+		/*-- 声音 --*/
+		if (counter->isSound())
+		{
+			SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+			SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
+					"gameover.mp3", false);
+		}
 		/*-- 本局得分 --*/
 		/*-- 分数 --*/
 		CCLabelTTF *titleLabel = CCLabelTTF::create("Score", "Verdana-Bold",
@@ -147,10 +156,12 @@ CCScene * FinishLayer::scene()
 
 void FinishLayer::onAgainItem(CCObject *object)
 {
+	Counter::sharedCounter()->playEffect("click.mp3");
 	CCNode *node = (CCNode *) object;
 	node->runAction(
 			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
 					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
+	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 	CCDirector* pDirector = CCDirector::sharedDirector();
 	CCScene *pScene = MainLayer::scene();
 	CCScene *reScene = CCTransitionFadeDown::create(0.5f, pScene);
@@ -159,19 +170,21 @@ void FinishLayer::onAgainItem(CCObject *object)
 
 void FinishLayer::onShareItem(CCObject *object)
 {
+	Counter::sharedCounter()->playEffect("click.mp3");
 	CCNode *node = (CCNode *) object;
 	node->runAction(
 			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
 					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
-	CCLog("分享");
 }
 
 void FinishLayer::onBackItem(CCObject *object)
 {
+	Counter::sharedCounter()->playEffect("click.mp3");
 	CCNode *node = (CCNode *) object;
 	node->runAction(
 			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
 					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
+	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 	CCDirector* pDirector = CCDirector::sharedDirector();
 	CCScene *pScene = MenuLayer::scene();
 	CCScene *reScene = CCTransitionFadeDown::create(0.5f, pScene);

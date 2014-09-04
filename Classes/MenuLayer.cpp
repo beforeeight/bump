@@ -44,8 +44,12 @@ bool MenuLayer::init()
 		float height = vsize.height / 2;
 		/* initialize the counter */
 		Counter *counter = Counter::sharedCounter();
-		//CCTextureCache *cache = CCTextureCache::sharedTextureCache();
-
+		if (counter->isSound())
+		{
+			SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+			SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3",
+					true);
+		}
 		/*-- 所有按钮 --*/
 		//声音
 		CCMenuItemImage *soundbg = CCMenuItemImage::create(("btn_small.png"),
@@ -180,6 +184,7 @@ CCScene * MenuLayer::scene()
 
 void MenuLayer::onSoundItem(CCObject *object)
 {
+	Counter::sharedCounter()->playEffect("click.mp3");
 	CCNode *node = (CCNode *) this;
 	node->runAction(
 			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
@@ -187,24 +192,18 @@ void MenuLayer::onSoundItem(CCObject *object)
 	Counter *counter = Counter::sharedCounter();
 	if (counter->isSound())
 	{
-		//trun off
-		SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-
-		CCLog("关音乐");
+		SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 	}
 	else
 	{
-		//trun on
-		SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
-
-		CCLog("开音乐");
+		SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
 	}
 	counter->toggleSound();
 }
 
 void MenuLayer::onFeedbackItem(CCObject *object)
 {
-	CCLog("反馈");
+	Counter::sharedCounter()->playEffect("click.mp3");
 	CCNode *node = (CCNode *) object;
 	node->runAction(
 			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
@@ -213,6 +212,7 @@ void MenuLayer::onFeedbackItem(CCObject *object)
 
 void MenuLayer::onStartItem(CCObject *object)
 {
+	Counter::sharedCounter()->playEffect("click.mp3");
 	CCNode *node = (CCNode *) object;
 	node->runAction(
 			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
@@ -225,20 +225,20 @@ void MenuLayer::onStartItem(CCObject *object)
 
 void MenuLayer::onRankingItem(CCObject *object)
 {
+	Counter::sharedCounter()->playEffect("click.mp3");
 	CCNode *node = (CCNode *) object;
 	node->runAction(
 			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
 					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
-	CCLog("排行榜");
 }
 
 void MenuLayer::onMoreItem(CCObject *object)
 {
+	Counter::sharedCounter()->playEffect("click.mp3");
 	CCNode *node = (CCNode *) object;
 	node->runAction(
 			CCSequence::createWithTwoActions(CCScaleBy::create(0.1f, 0.95f),
 					CCScaleBy::create(0.1f, 10.0 / 9.5f)));
-	CCLog("更多游戏");
 }
 
 bool MenuBgLayer::init()

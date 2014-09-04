@@ -40,6 +40,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	CCScene *pScene = MenuLayer::scene();
 	//CCScene *pScene = CCScene::create();
 	pDirector->runWithScene(pScene);
+	SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3");
 	return true;
 }
 
@@ -86,8 +87,12 @@ void AppDelegate::showCounter()
 
 void AppDelegate::loadResources() const
 {
-	//SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("music.mp3");
-	//SimpleAudioEngine::sharedEngine()->preloadEffect("explosive.mp3");
+	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("bgm.mp3");
+	SimpleAudioEngine::sharedEngine()->preloadEffect("click.mp3");
+	SimpleAudioEngine::sharedEngine()->preloadEffect("boom.mp3");
+	SimpleAudioEngine::sharedEngine()->preloadEffect("jump.mp3");
+	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("gameover.mp3");
+
 	// create TARGET_DESIGN_RESOLUTION_SIZEa scene. it's an autorelease object
 	//SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music.mp3");
 	//CCTextureCache::sharedTextureCache()->addImage("airplan.png");

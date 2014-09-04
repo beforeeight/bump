@@ -173,4 +173,6 @@ obj/release/Classes/Counter.o: ../Classes/Counter.cpp \
  ../../../../cocos2dx/CCScheduler.h \
  ../../../../cocos2dx/support/data_support/uthash.h \
  ../../../../cocos2dx/support/component/CCComponent.h \
- ../../../../cocos2dx/support/component/CCComponentContainer.h
+ ../../../../cocos2dx/support/component/CCComponentContainer.h \
+ ../../../../CocosDenshion/include/SimpleAudioEngine.h \
+ ../../../../CocosDenshion/include/Export.h

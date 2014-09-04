@@ -11,6 +11,9 @@
 #include "BgLayer.h"
 #include "Counter.h"
 #include "FinishLayer.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 #define TAG_LEFT 0
 #define TAG_RIGHT 1
@@ -47,7 +50,11 @@ bool MainLayer::init()
 	float height = vsize.height / 2;
 	Counter *counter = Counter::sharedCounter();
 	counter->clearScore();
-
+	if (counter->isSound()
+			&& !SimpleAudioEngine::sharedEngine()->isBackgroundMusicPlaying())
+	{
+		SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
+	}
 	/*-- door --*/
 	CCAnimation *doorAnimation =
 			CCAnimationCache::sharedAnimationCache()->animationByName("door");
@@ -234,6 +241,7 @@ void MainLayer::update(float delta)
 
 void MainLayer::playRunAnimation()
 {
+
 	CCSprite *left = (CCSprite*) this->getChildByTag(TAG_LEFT);
 	CCSprite *right = (CCSprite*) this->getChildByTag(TAG_RIGHT);
 	/*-- 走路动画 --*/
@@ -257,6 +265,7 @@ void MainLayer::playRunAnimation()
 void MainLayer::playJumpAnimation(CCNode *node)
 {
 	/*-- 跳动画 --*/
+	Counter::sharedCounter()->playEffect("jump.mp3");
 	node->stopActionByTag(TAG_ACTION_RUN);
 	CCAction* animation;
 	if (node->getTag() == TAG_LEFT)
@@ -305,6 +314,7 @@ void MainLayer::playDropAnimation()
 
 void MainLayer::playExplosionAnimation(const CCPoint &p)
 {
+	Counter::sharedCounter()->playEffect("boom.mp3");
 	CCSprite *explostion = CCSprite::createWithSpriteFrame(
 			CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(
 					"boom_1.png"));
