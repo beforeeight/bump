@@ -45,8 +45,8 @@ bool FinishLayer::init()
 		}
 		/*-- 本局得分 --*/
 		/*-- 分数 --*/
-		CCLabelTTF *titleLabel = CCLabelTTF::create("Score", "Verdana-Bold",
-				46);
+		CCLabelTTF *titleLabel = CCLabelTTF::create(
+				counter->getStringByKey("score"), "Verdana-Bold", 46);
 		titleLabel->setColor(ccc3(98, 104, 191));
 		CCMenuItemSprite *title = CCMenuItemSprite::create(titleLabel,
 				titleLabel, titleLabel);
@@ -84,7 +84,8 @@ bool FinishLayer::init()
 		CCMenuItemImage *startbg = CCMenuItemImage::create(("btn_big.png"),
 				("btn_big.png"));
 		startbg->setTarget(startbg, menu_selector(FinishLayer::onAgainItem));
-		CCMenuItemFont *starttxt = CCMenuItemFont::create("Try Again");
+		CCMenuItemFont *starttxt = CCMenuItemFont::create(
+				counter->getStringByKey("again"));
 		startbg->setPosition(ccp(1, -160));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
 		starttxt->setPosition(
@@ -97,7 +98,8 @@ bool FinishLayer::init()
 		CCMenuItem *sharebg = CCMenuItemImage::create(("btn_big.png"),
 				("btn_big.png"));
 		sharebg->setTarget(sharebg, menu_selector(FinishLayer::onShareItem));
-		CCMenuItemFont *sharetxt = CCMenuItemFont::create("Share");
+		CCMenuItemFont *sharetxt = CCMenuItemFont::create(
+				counter->getStringByKey("share"));
 		sharebg->setPosition(
 				ccp(1,
 						startbg->getPosition().y
@@ -113,7 +115,8 @@ bool FinishLayer::init()
 		CCMenuItem *morebg = CCMenuItemImage::create(("btn_big.png"),
 				("btn_big.png"));
 		morebg->setTarget(morebg, menu_selector(FinishLayer::onBackItem));
-		CCMenuItemFont *moretxt = CCMenuItemFont::create("Main Menu");
+		CCMenuItemFont *moretxt = CCMenuItemFont::create(
+				counter->getStringByKey("menu"));
 		morebg->setPosition(
 				ccp(0,
 						sharebg->getPosition().y

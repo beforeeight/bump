@@ -75,12 +75,12 @@ bool MainLayer::init()
 			CCRepeatForever::create(CCAnimate::create(doorAnimation)));
 
 	/*-- 分数 --*/
-	CCLabelTTF *titletxt = CCLabelTTF::create("Score", "Verdana-Bold", 46);
+	CCLabelTTF *titletxt = CCLabelTTF::create(counter->getStringByKey("score"),
+			"Verdana-Bold", 46);
 	titletxt->setColor(ccc3(98, 104, 191));
 	titletxt->setAnchorPoint(ccp(0.5, 0.5));
 	titletxt->setPosition(ccp(0, height - 130));
 	this->addChild(titletxt);
-
 	CCNode *scoreLabel = counter->create_label();
 	scoreLabel->setPosition(ccp(0, height - 200));
 	scoreLabel->setAnchorPoint(ccp(0.5, 1));

@@ -16,11 +16,23 @@ Counter::Counter()
 	sound = true;
 	load();
 	scoreLabel = 0;
+	//获取当前系统环境语言类型
+	ccLanguageType languageType =
+			CCApplication::sharedApplication()->getCurrentLanguage();
+	if (kLanguageChinese == languageType)
+		//根据语言选择不同的属性表
+		langDic = CCDictionary::createWithContentsOfFile("zh.plist");
+	else
+		langDic = CCDictionary::createWithContentsOfFile("en.plist");
+	if (langDic)
+	{
+		CC_SAFE_RETAIN(langDic);
+	}
 }
 
 Counter::~Counter()
 {
-// TODO Auto-generated destructor stub
+	CC_SAFE_RELEASE(langDic);
 }
 
 CCLabelBMFont * Counter::create_label()
@@ -139,4 +151,12 @@ bool Counter::toggleSound()
 {
 	sound = !sound;
 	return sound;
+}
+
+const char* Counter::getStringByKey(const char * key)
+{
+
+	std::string keyStr = key;
+	//返回key对应的value
+	return (langDic->valueForKey(keyStr))->getCString();
 }

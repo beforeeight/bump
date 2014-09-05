@@ -51,6 +51,23 @@ bool MenuLayer::init()
 					true);
 		}
 		/*-- 所有按钮 --*/
+		//标题
+		CCMenuItemImage *title;
+		if (CCApplication::sharedApplication()->getCurrentLanguage()
+				== kLanguageChinese)
+		{
+			title = CCMenuItemImage::create("gamename_cn.png",
+					"gamename_cn.png");
+		}
+		else
+		{
+			title = CCMenuItemImage::create("gamename_us.png",
+					"gamename_us.png");
+		}
+		title->setAnchorPoint(ccp(0.5, 0.5));
+		title->setPosition(ccp(0, height - 180));
+		this->addChild(title);
+
 		//声音
 		CCMenuItemImage *soundbg = CCMenuItemImage::create(("btn_small.png"),
 				("btn_small.png"));
@@ -102,7 +119,8 @@ bool MenuLayer::init()
 		CCMenuItemImage *startbg = CCMenuItemImage::create(("btn_big.png"),
 				("btn_big.png"));
 		startbg->setTarget(startbg, menu_selector(MenuLayer::onStartItem));
-		CCMenuItemFont *starttxt = CCMenuItemFont::create("start game");
+		CCMenuItemFont *starttxt = CCMenuItemFont::create(
+				counter->getStringByKey("start"));
 		startbg->setPosition(ccp(1, -160));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
 		starttxt->setPosition(
@@ -116,7 +134,7 @@ bool MenuLayer::init()
 				("btn_big.png"));
 		rankingbg->setTarget(rankingbg,
 				menu_selector(MenuLayer::onRankingItem));
-		CCMenuItemFont *rankingtxt = CCMenuItemFont::create("Ranking");
+		CCMenuItemFont *rankingtxt = CCMenuItemFont::create(counter->getStringByKey("ranking"));
 		rankingbg->setPosition(
 				ccp(1,
 						startbg->getPosition().y
@@ -141,7 +159,7 @@ bool MenuLayer::init()
 				("btn_big.png"));
 		morebg->setTarget(morebg, menu_selector(MenuLayer::onMoreItem));
 
-		CCMenuItemFont *moretxt = CCMenuItemFont::create("More Games");
+		CCMenuItemFont *moretxt = CCMenuItemFont::create(counter->getStringByKey("more"));
 		morebg->setPosition(
 				ccp(0,
 						rankingbg->getPosition().y

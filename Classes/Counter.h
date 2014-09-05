@@ -49,6 +49,8 @@ public:
 
 	void playEffect(const char* file);
 
+	const char* getStringByKey(const char * key);
+
 private:
 	unsigned int counter;
 
@@ -57,6 +59,8 @@ private:
 	unsigned int times;
 
 	bool sound;
+
+	CCDictionary *langDic;
 
 	CCLabelBMFont *scoreLabel;
 };
