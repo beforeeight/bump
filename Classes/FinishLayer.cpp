@@ -66,7 +66,7 @@ bool FinishLayer::init()
 		//最高分
 		CCMenuItem *scorebg = CCMenuItemImage::create("bg_gameover.png",
 				"bg_gameover.png");
-		scorebg->setPosition(ccp(0, 30));
+		scorebg->setPosition(ccp(0, 50));
 		scorebg->setAnchorPoint(ccp(0.5, 0.5));
 		this->addChild(scorebg);
 		CCLabelBMFont *highScore = CCLabelBMFont::create(
@@ -88,7 +88,7 @@ bool FinishLayer::init()
 		CCMenuItemFont *starttxt = CCMenuItemFont::create(
 				counter->getStringByKey("again"));
 		starttxt->setFontName(counter->getStringByKey("font"));
-		startbg->setPosition(ccp(1, -160));
+		startbg->setPosition(ccp(1, -130));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
 		starttxt->setPosition(
 				ccp(startbg->getContentSize().width / 2,

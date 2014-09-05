@@ -48,7 +48,7 @@ bool BgLayer::init()
 
 		/*-- 小鸟 --*/
 		CCSprite *bird = CCSprite::createWithSpriteFrameName("bird_1.png");
-		bird->setPosition(ccp(width + bird->getContentSize().width, 180));
+		bird->setPosition(ccp(width + bird->getContentSize().width, 80));
 		this->addChild(bird, 1);
 		CCAnimation *birdAnimation =
 				CCAnimationCache::sharedAnimationCache()->animationByName(
@@ -75,7 +75,7 @@ bool BgLayer::init()
 
 		/*-- 飞机 --*/
 		CCSprite *plane = CCSprite::createWithSpriteFrameName("plane_1.png");
-		plane->setPosition(ccp(width + plane->getContentSize().width, 180));
+		plane->setPosition(ccp(width + plane->getContentSize().width, 80));
 		this->addChild(plane, 1);
 		CCAnimation *planeAnimation =
 				CCAnimationCache::sharedAnimationCache()->animationByName(

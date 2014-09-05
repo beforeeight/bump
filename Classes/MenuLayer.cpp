@@ -122,23 +122,25 @@ bool MenuLayer::init()
 		CCMenuItemFont *starttxt = CCMenuItemFont::create(
 				counter->getStringByKey("start"));
 		starttxt->setFontName(counter->getStringByKey("font"));
-		startbg->setPosition(ccp(1, -160));
+		startbg->setPosition(ccp(0, -70));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
 		starttxt->setPosition(
-				ccp(startbg->getPosition().x, startbg->getPosition().y));
+				ccp(startbg->getContentSize().width / 2,
+						startbg->getContentSize().height / 2));
 		starttxt->setAnchorPoint(ccp(0.5, 0.5));
 		this->addChild(startbg, 2);
-		this->addChild(starttxt, 3);
+		startbg->addChild(starttxt, 3);
 
 		//排行榜
 		CCMenuItem *rankingbg = CCMenuItemImage::create(("btn_big.png"),
 				("btn_big.png"));
 		rankingbg->setTarget(rankingbg,
 				menu_selector(MenuLayer::onRankingItem));
-		CCMenuItemFont *rankingtxt = CCMenuItemFont::create(counter->getStringByKey("ranking"));
+		CCMenuItemFont *rankingtxt = CCMenuItemFont::create(
+				counter->getStringByKey("ranking"));
 		rankingtxt->setFontName(counter->getStringByKey("font"));
 		rankingbg->setPosition(
-				ccp(1,
+				ccp(0,
 						startbg->getPosition().y
 								- (startbg->getContentSize().height) - 20));
 		rankingbg->setAnchorPoint(ccp(0.5, 0.5));
@@ -160,7 +162,8 @@ bool MenuLayer::init()
 		CCMenuItem *morebg = CCMenuItemImage::create(("btn_big.png"),
 				("btn_big.png"));
 		morebg->setTarget(morebg, menu_selector(MenuLayer::onMoreItem));
-		CCMenuItemFont *moretxt = CCMenuItemFont::create(counter->getStringByKey("more"));
+		CCMenuItemFont *moretxt = CCMenuItemFont::create(
+				counter->getStringByKey("more"));
 		moretxt->setFontName(counter->getStringByKey("font"));
 		morebg->setPosition(
 				ccp(0,
