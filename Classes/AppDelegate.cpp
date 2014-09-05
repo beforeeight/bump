@@ -107,6 +107,9 @@ void AppDelegate::loadResources() const
 	/*-- 字体 --*/
 	CCMenuItemFont::setFontName(
 			Counter::sharedCounter()->getStringByKey("font"));
+	CCMenuItemFont::setFontSize(
+			CCString::create(
+					Counter::sharedCounter()->getStringByKey("font_size"))->intValue());
 
 	/*-- Animation --*/
 	CCSpriteFrameCache *frameCache =
