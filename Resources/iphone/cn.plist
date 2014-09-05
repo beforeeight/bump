@@ -22,5 +22,11 @@
         
         <key>menu</key>
         <string>主菜单</string>
+        
+        <key>font</key>
+        <string>Verdana-Bold</string>
+        
+        <key>font_size</key>
+        <string>30</string>
     </dict>
 </plist>

@@ -76,7 +76,7 @@ bool MainLayer::init()
 
 	/*-- 分数 --*/
 	CCLabelTTF *titletxt = CCLabelTTF::create(counter->getStringByKey("score"),
-			"Verdana-Bold", 46);
+			counter->getStringByKey("font"), 46);
 	titletxt->setColor(ccc3(98, 104, 191));
 	titletxt->setAnchorPoint(ccp(0.5, 0.5));
 	titletxt->setPosition(ccp(0, height - 130));
