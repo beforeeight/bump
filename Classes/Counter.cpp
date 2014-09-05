@@ -21,7 +21,7 @@ Counter::Counter()
 			CCApplication::sharedApplication()->getCurrentLanguage();
 	if (kLanguageChinese == languageType)
 		//根据语言选择不同的属性表
-		langDic = CCDictionary::createWithContentsOfFile("cn.plist");
+		langDic = CCDictionary::createWithContentsOfFile("zh.plist");
 	else
 		langDic = CCDictionary::createWithContentsOfFile("en.plist");
 	if (langDic)
