@@ -210,8 +210,8 @@ void MainLayer::update(float delta)
 
 			CCRect leftRect = left->boundingBox();
 			CCRect rightRect = right->boundingBox();
-			leftRect.size = leftRect.size * 0.8;
-			rightRect.size = rightRect.size * 0.8;
+			leftRect.size = leftRect.size * 0.85f;
+			rightRect.size = rightRect.size * 0.85f;
 			if (leftRect.intersectsRect(rightRect))
 			{
 				disappearing = true;
