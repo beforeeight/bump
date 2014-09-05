@@ -17,7 +17,10 @@ int main(int argc, char **argv)
 	//pEGLView->setDesignResolutionSize(768.0f, 1280.0f, kResolutionShowAll);
 	AppDelegate app;
 	CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
-	pEGLView->setFrameSize(480.0f, 800.0f);
-	//pEGLView->setFrameSize(480.0f, 800.0f);
+	//pEGLView->setFrameSize(640.0f, 1136.0f);
+	pEGLView->setFrameSize(320.0f, 568.0f);
+
+	//pEGLView->setFrameSize(1536.0f, 2048.0f);
+	//pEGLView->setFrameSize(512.0f, 682.67f);
 	return CCApplication::sharedApplication()->run();
 }
