@@ -87,7 +87,6 @@ bool FinishLayer::init()
 		startbg->setTarget(startbg, menu_selector(FinishLayer::onAgainItem));
 		CCMenuItemFont *starttxt = CCMenuItemFont::create(
 				counter->getStringByKey("again"));
-		starttxt->setFontName(counter->getStringByKey("font"));
 		startbg->setPosition(ccp(1, -130));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
 		starttxt->setPosition(
@@ -102,7 +101,6 @@ bool FinishLayer::init()
 		sharebg->setTarget(sharebg, menu_selector(FinishLayer::onShareItem));
 		CCMenuItemFont *sharetxt = CCMenuItemFont::create(
 				counter->getStringByKey("share"));
-		sharetxt->setFontName(counter->getStringByKey("font"));
 		sharebg->setPosition(
 				ccp(1,
 						startbg->getPosition().y
@@ -120,7 +118,6 @@ bool FinishLayer::init()
 		morebg->setTarget(morebg, menu_selector(FinishLayer::onBackItem));
 		CCMenuItemFont *moretxt = CCMenuItemFont::create(
 				counter->getStringByKey("menu"));
-		moretxt->setFontName(counter->getStringByKey("font"));
 		morebg->setPosition(
 				ccp(0,
 						sharebg->getPosition().y

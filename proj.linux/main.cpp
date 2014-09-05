@@ -19,9 +19,9 @@ int main(int argc, char **argv)
 	CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	/*iphone5*/
 	//pEGLView->setFrameSize(640.0f, 1136.0f);
-	//pEGLView->setFrameSize(480.0f, 852.0f);
+	pEGLView->setFrameSize(480.0f, 852.0f);
 	/*ipad*/
 	//pEGLView->setFrameSize(1536.0f, 2048.0f);
-	pEGLView->setFrameSize(512.0f, 682.67f);
+	//pEGLView->setFrameSize(512.0f, 682.67f);
 	return CCApplication::sharedApplication()->run();
 }

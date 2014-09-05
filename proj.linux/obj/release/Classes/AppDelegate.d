@@ -177,4 +177,4 @@ obj/release/Classes/AppDelegate.o: ../Classes/AppDelegate.cpp \
  ../Classes/AppMacros.h \
  ../../../../CocosDenshion/include/SimpleAudioEngine.h \
  ../../../../CocosDenshion/include/Export.h ../Classes/MenuLayer.h \
- ../Classes/MainLayer.h
+ ../Classes/MainLayer.h ../Classes/Counter.h

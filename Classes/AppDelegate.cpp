@@ -3,6 +3,8 @@
 #include "SimpleAudioEngine.h"
 #include "MenuLayer.h"
 #include "MainLayer.h"
+#include "Counter.h"
+
 //#include "FinishLayer.h"
 
 USING_NS_CC;
@@ -87,15 +89,14 @@ void AppDelegate::showCounter()
 
 void AppDelegate::loadResources() const
 {
+	/*-- 声音 --*/
 	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("bgm.mp3");
 	SimpleAudioEngine::sharedEngine()->preloadEffect("click.mp3");
 	SimpleAudioEngine::sharedEngine()->preloadEffect("boom.mp3");
 	SimpleAudioEngine::sharedEngine()->preloadEffect("jump.mp3");
 	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("gameover.mp3");
 
-	// create TARGET_DESIGN_RESOLUTION_SIZEa scene. it's an autorelease object
-	//SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music.mp3");
-	//CCTextureCache::sharedTextureCache()->addImage("airplan.png");
+	/*-- 图片 --*/
 	CCTextureCache::sharedTextureCache()->addImage(("background.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_bridge.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_score.png"));
@@ -103,10 +104,9 @@ void AppDelegate::loadResources() const
 	CCTextureCache::sharedTextureCache()->addImage(("btn_small.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_gameover.png"));
 
-//	CCTextureCache::sharedTextureCache()->addImage(respath("btn_feedback.png"));
-//	CCTextureCache::sharedTextureCache()->addImage(
-//			respath("btn_sound_off.png"));
-//	CCTextureCache::sharedTextureCache()->addImage(respath("btn_sound_on.png"));
+	/*-- 字体 --*/
+	CCMenuItemFont::setFontName(
+			Counter::sharedCounter()->getStringByKey("font"));
 
 	/*-- Animation --*/
 	CCSpriteFrameCache *frameCache =

@@ -115,21 +115,22 @@ bool MenuLayer::init()
 						feedbackbg->getContentSize().height / 2));
 		this->addChild(feedbackbg, 2);
 		feedbackbg->addChild(feedbacktxt, 3);
+
 		//开始游戏
 		CCMenuItemImage *startbg = CCMenuItemImage::create(("btn_big.png"),
 				("btn_big.png"));
 		startbg->setTarget(startbg, menu_selector(MenuLayer::onStartItem));
 		CCMenuItemFont *starttxt = CCMenuItemFont::create(
 				counter->getStringByKey("start"));
-		starttxt->setFontName(counter->getStringByKey("font"));
 		startbg->setPosition(ccp(0, -70));
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
 		starttxt->setPosition(
 				ccp(startbg->getContentSize().width / 2,
 						startbg->getContentSize().height / 2));
 		starttxt->setAnchorPoint(ccp(0.5, 0.5));
-		this->addChild(startbg, 2);
 		startbg->addChild(starttxt, 3);
+		this->addChild(startbg, 2);
+
 
 		//排行榜
 		CCMenuItem *rankingbg = CCMenuItemImage::create(("btn_big.png"),
@@ -138,7 +139,6 @@ bool MenuLayer::init()
 				menu_selector(MenuLayer::onRankingItem));
 		CCMenuItemFont *rankingtxt = CCMenuItemFont::create(
 				counter->getStringByKey("ranking"));
-		rankingtxt->setFontName(counter->getStringByKey("font"));
 		rankingbg->setPosition(
 				ccp(0,
 						startbg->getPosition().y
@@ -147,14 +147,6 @@ bool MenuLayer::init()
 		rankingtxt->setPosition(
 				ccp(rankingbg->getContentSize().width / 2,
 						rankingbg->getContentSize().height / 2));
-
-//		rankingtxt->setPosition(
-//				ccp(
-//						rankingbg->getPosition().x
-//								+ rankingbg->getContentSize().width / 2,
-//								rankingbg->getPosition().y
-//								- rankingbg->getContentSize().height / 2));
-
 		this->addChild(rankingbg, 2);
 		rankingbg->addChild(rankingtxt);
 
@@ -164,7 +156,6 @@ bool MenuLayer::init()
 		morebg->setTarget(morebg, menu_selector(MenuLayer::onMoreItem));
 		CCMenuItemFont *moretxt = CCMenuItemFont::create(
 				counter->getStringByKey("more"));
-		moretxt->setFontName(counter->getStringByKey("font"));
 		morebg->setPosition(
 				ccp(0,
 						rankingbg->getPosition().y
