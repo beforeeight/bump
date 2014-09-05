@@ -303,9 +303,14 @@ void MainLayer::playDropAnimation()
 	CCSize vsize = CCDirector::sharedDirector()->getVisibleSize();
 	float width = vsize.width / 2;
 	float height = vsize.height / 2;
-	left->runAction(CCMoveTo::create(1.0f, ccp(left->getPositionX(), -height)));
+	left->runAction(
+			CCMoveTo::create(0.6f,
+					ccp(left->getPositionX(),
+							-height - left->getContentSize().height)));
 	right->runAction(
-			CCMoveTo::create(1.0f, ccp(right->getPositionX(), -height)));
+			CCMoveTo::create(0.6f,
+					ccp(right->getPositionX(),
+							-height - right->getContentSize().height)));
 	CCPoint p = (left->getPosition() + ccp(0, left->getContentSize().height / 2)
 			+ right->getPosition() + ccp(0, right->getContentSize().height / 2))
 			/ 2.0f;
