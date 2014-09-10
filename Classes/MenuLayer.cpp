@@ -66,6 +66,7 @@ bool MenuLayer::init()
 		}
 		title->setAnchorPoint(ccp(0.5, 0.5));
 		title->setPosition(ccp(0, height - 180));
+		title->setEnabled(false);
 		this->addChild(title);
 
 		//声音
