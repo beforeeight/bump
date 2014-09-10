@@ -27,8 +27,8 @@ MainLayer::MainLayer()
 {
 	// TODO Auto-generated constructor stub
 	disappearing = false;
-	speed = 4.0f;
-	ratio = 5.0f;
+	speed = 3.0f;
+	ratio = 5.3f;
 	leftJumping = false;
 	rightJumping = false;
 }
@@ -211,7 +211,7 @@ void MainLayer::update(float delta)
 			CCRect leftRect = left->boundingBox();
 			CCRect rightRect = right->boundingBox();
 			leftRect.size = leftRect.size * 0.85f;
-			rightRect.size = rightRect.size * 0.85f;
+			rightRect.size = rightRect.size * 0.8f;
 			if (leftRect.intersectsRect(rightRect))
 			{
 				disappearing = true;
