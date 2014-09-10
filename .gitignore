@@ -1,10 +1,12 @@
 bin/
+proj.android/
 *.db
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
+*.d
 
 # Compiled Dynamic libraries
 *.so

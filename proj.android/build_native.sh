@@ -1,4 +1,4 @@
-APPNAME="HelloCpp"
+APPNAME="bump"
 
 # options
 

@@ -2,20 +2,18 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := hellocpp_shared
+LOCAL_MODULE := bump_shared
 
-LOCAL_MODULE_FILENAME := libhellocpp
+LOCAL_MODULE_FILENAME := libbump
 
-LOCAL_SRC_FILES := hellocpp/main.cpp \
+LOCAL_SRC_FILES := bump/main.cpp \
 	../../Classes/AppDelegate.cpp \
         ../../Classes/Counter.cpp \
-        ../../Classes/MainScene.cpp \
-        ../../Classes/EnemyEmitter.cpp \
-        ../../Classes/Airplane.cpp \
-        ../../Classes/MyPlane.cpp \
-        ../../Classes/EnemyPlane.cpp \
-        ../../Classes/Bullet.cpp \
-        ../../Classes/ParticleExplosion.cpp
+        ../../Classes/BgLayer.cpp \
+        ../../Classes/MenuLayer.cpp \
+        ../../Classes/MainLayer.cpp \
+        ../../Classes/FinishLayer.cpp \
+        ../../Classes/Ball.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
