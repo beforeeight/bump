@@ -103,6 +103,8 @@ void AppDelegate::loadResources() const
 	CCTextureCache::sharedTextureCache()->addImage(("btn_big.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("btn_small.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("bg_gameover.png"));
+	CCTextureCache::sharedTextureCache()->addImage(("btn_sound_off.png"));
+	CCTextureCache::sharedTextureCache()->addImage(("btn_sound_off.png"));
 
 	/*-- 字体 --*/
 	CCMenuItemFont::setFontName(
